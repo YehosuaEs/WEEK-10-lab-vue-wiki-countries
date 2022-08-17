@@ -2,25 +2,33 @@
     <div class="container">
         <h1 class="text-center my-3">Country List</h1>
         <div v-if="this.countries" class="row">
-            <div class="col-4">
+            <div class="col-4" style="max-height: 90vh; overflow: scroll">
                 <ul class="list-group">
-                    <div v-for="(country, index) in countries" :key="index">
+                    <router-link
+                        :to="`/list/${country.alpha3Code}`"
+                        v-for="(country, index) in countries"
+                        :key="index"
+                    >
                         <li
                             class="list-group-item d-flex flex-column justify-content-center"
                         >
                             <img
-                                :src="`https://flagpedia.net/data/flags/icon/72x54/${country.alpha2Code.toLowerCase()}.png`"
+                                :src="`https://flagcdn.com/w320/${country.alpha2Code.toLowerCase()}.png`"
                                 :alt="'flag from ' + country.name.official"
+                                style="width: 120px"
                             />
 
                             <p class="text-center fw-bold">
                                 {{ country.name.official }}
                             </p>
                         </li>
-                    </div>
+                    </router-link>
                 </ul>
             </div>
-            <div class="col-8">Sección derecha</div>
+            <div class="col-8">
+                <!-- <CountriesDetails /> -->
+                <router-view />
+            </div>
         </div>
         <!-- -------------------SPINNER------------------- -->
         <div v-else class="row">
@@ -31,9 +39,10 @@
 
 <script>
 import Spinner from "../components/Spinner.vue";
+import CountriesDetails from "../components/CountriesDetails.vue";
 export default {
     name: "CountriesList",
-    components: { Spinner },
+    components: { Spinner, CountriesDetails },
 
     data() {
         return {
@@ -54,9 +63,11 @@ export default {
                 );
             } catch (err) {
                 console.log(err);
-                console.log(error.name === "AbortError");
+                console.log(err.name + " in Countries List");
             } finally {
-                console.log(`finally loading after try{{} and catch}`);
+                console.log(
+                    `finally loading after try{} and catch{} in Countries List`
+                );
             }
         },
     },
