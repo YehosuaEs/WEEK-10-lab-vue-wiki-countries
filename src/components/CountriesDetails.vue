@@ -48,56 +48,74 @@
 
 <script>
 // import { reactive, ref } from "@vue/reactivity";
+// import { reactive, ref, computed, watch, onMounted } from "vue";
 // import { useRoute } from "vue-router";
 export default {
+    // name: "CountriesDetails",
+
     // setup() {
     //     const name = ref("");
     //     const capital = ref(""):
     //     const alpha3Code = ref("");
-    //     const area = ref ("");
+    //     const area = ref("");
     //     const borders = ref([]);
     //     const alpha2Code = ref("");
+    //     const countryinfo = ref(null);
 
-    //     // const countryData = reactive({
-    //     //     name: "",
-    //     //     area: "",
-    //     //     capital: "",
-    //     //     borders: [],
-    //     //     alpha3Code: "",
-    //     //     alpha2Code: "",
-    //     // })
+    //     const countryData = reactive({
+    //         name: "",
+    //         area: "",
+    //         capital: "",
+    //         borders: [],
+    //         alpha3Code: "",
+    //         alpha2Code: "",
+    //     })
 
     //     const route =  useRoute();
+
     //     const getCountryByAlphaCode = async {} => {
 
-    //         // try {
     //         alpha3Code = route.params.alpha3Code;
-    //         // const response = await fetch(this.url);
+
     //         const response = await fetch(
-    //             `https://ih-countries-api.herokuapp.com/countries/${this.alpha3Code}`
+    //             `https://ih-countries-api.herokuapp.com/countries/${alpha3Code}`
     //         );
     //         const finalResponse = await response.json();
-    //         // console.log(finalResponse);
-    //         name = finalResponse.name.common;
-    //         area = finalResponse.area;
-    //         capital = finalResponse.capital[0];
-    //         borders = finalResponse.borders;
-    //         alpha2Code = finalResponse.alpha2Code;
-    //         // countryData = finalResponse;
-    //         // this.alpha3Code = finalResponse.alpha3Code;
-    //         // this.countries = finalResponse.sort((a, b) =>
-    //         //     a.name.official.localeCompare(b.name.official)
-    //         // );
-    //         // } catch (err) {
-    //         //     console.log(err);
-    //         //     console.log(error.name === "AbortError");
-    //         // } finally {
-    //         //     console.log(`finally loading after try{{} and catch}`);
-    //         // }
-    //         return {}
+    //         const name = finalResponse.name.common;
+    //         const area = finalResponse.area;
+    //         const capital = finalResponse.capital[0];
+    //         const borders = finalResponse.borders;
+    //         const alpha2Code = finalResponse.alpha2Code;
+    //          const countryInfo.value = finalResponse;
+    //          return {name, area, capital, borders, alpha2code, countryInfo};
+
     //     }
 
-    //     return { name, capital, alpha3Code, alpha2Code, area, borders, countryData, getCountryByAlphaCode};
+    // onMounted(()=>{
+    //     getCountryByAlphaCode();
+    // })
+
+    // const countryCode = computed(()=> {
+    //     return route.params.alpha3Code;
+    // })
+    // // const countryCode = computed(function() {
+    // //     return route.params.alpha3Code;
+    // // })
+
+    // watch(countryCode(newCountryCode)=>{
+    //      getCountryByAlphaCode();
+    // })
+
+    //     return {
+    //         name,
+    //         capital,
+    //         alpha3Code,
+    //         alpha2Code,
+    //         area,
+    //         borders,
+    //         getCountryByAlphaCode,
+    //         countryCode,
+    //     };
     // },
     name: "CountriesDetails",
     data() {
@@ -116,7 +134,6 @@ export default {
 
     methods: {
         async getCountryByAlphaCode() {
-            // try {
             this.alpha3Code = this.$route.params.alpha3Code;
             // const response = await fetch(this.url);
             const response = await fetch(
@@ -130,16 +147,6 @@ export default {
             this.borders = finalResponse.borders;
             this.alpha2Code = finalResponse.alpha2Code;
             this.countryData = finalResponse;
-            // this.alpha3Code = finalResponse.alpha3Code;
-            // this.countries = finalResponse.sort((a, b) =>
-            //     a.name.official.localeCompare(b.name.official)
-            // );
-            // } catch (err) {
-            //     console.log(err);
-            //     console.log(error.name === "AbortError");
-            // } finally {
-            //     console.log(`finally loading after try{{} and catch}`);
-            // }
         },
     },
     // Es mounted porque el created es antes que ya esta siendo llamado en el otro componente countriesList
