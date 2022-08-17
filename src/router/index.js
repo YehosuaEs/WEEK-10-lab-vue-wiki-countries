@@ -2,18 +2,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
+    // {
+    //     path: '/',
+    //     name: 'root',
+    //     component: () => import('../components/Index.vue')
+    // },
     {
         path: '/',
-        name: 'root',
-        component: () => import('../components/Index.vue')
-    },
-    {
-        path: '/list',
         name: 'list',
         component: () => import('../components/CountriesList.vue'),
         children: [
             {
-                path: '/list/details',
+                path: '/list/:alpha3Code',
                 name: 'details',
                 component: () => import('../components/CountriesDetails.vue')
             },
