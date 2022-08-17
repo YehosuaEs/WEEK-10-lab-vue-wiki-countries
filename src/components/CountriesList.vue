@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1 class="text-center my-3">Country List</h1>
-        <div v-if="this.countries" class="row">
+        <div v-if="countries" class="row">
             <div class="col-4" style="max-height: 90vh; overflow: scroll">
                 <ul class="list-group">
                     <router-link
@@ -39,45 +39,68 @@
 
 <script>
 import Spinner from "../components/Spinner.vue";
-import CountriesDetails from "../components/CountriesDetails.vue";
+import { ref } from "vue";
 export default {
     name: "CountriesList",
-    components: { Spinner, CountriesDetails },
+    components: { Spinner },
 
-    data() {
+    setup() {
+        const countries = ref(null);
+
+        const fetchCountries = async () => {
+            const response = await fetch(
+                "https://ih-countries-api.herokuapp.com/countries"
+            );
+            const finalResponse = await response.json();
+
+            const sortedCountries = finalResponse.sort((a, b) =>
+                a.name.official.localeCompare(b.name.official)
+            );
+
+            countries.value = sortedCountries;
+        };
+
+        fetchCountries();
+
         return {
-            // un valor de dato de estilo null para poder recibir la info del API
-            countries: null,
-            url: "https://ih-countries-api.herokuapp.com/countries",
+            countries,
+            fetchCountries,
         };
     },
+    // data() {
+    //     return {
+    //         // un valor de dato de estilo null para poder recibir la info del API
+    //         countries: null,
+    //         url: "https://ih-countries-api.herokuapp.com/countries",
+    //     };
+    // },
 
-    methods: {
-        async fetchCountries() {
-            try {
-                const response = await fetch(this.url);
-                const finalResponse = await response.json();
-                // console.log(finalResponse);
-                this.countries = finalResponse.sort((a, b) =>
-                    a.name.official.localeCompare(b.name.official)
-                );
-            } catch (err) {
-                console.log(err);
-                console.log(err.name + " in Countries List");
-            } finally {
-                console.log(
-                    `finally loading after try{} and catch{} in Countries List`
-                );
-            }
-        },
-    },
+    // methods: {
+    //     async fetchCountries() {
+    //         try {
+    //             const response = await fetch(this.url);
+    //             const finalResponse = await response.json();
+    //             // console.log(finalResponse);
+    //             this.countries = finalResponse.sort((a, b) =>
+    //                 a.name.official.localeCompare(b.name.official)
+    //             );
+    //         } catch (err) {
+    //             console.log(err);
+    //             console.log(err.name + " in Countries List");
+    //         } finally {
+    //             console.log(
+    //                 `finally loading after try{} and catch{} in Countries List`
+    //             );
+    //         }
+    //     },
+    // },
 
     // Created hook para hacer la llamada a la base de datos
-    created() {
-        setTimeout(() => {
-            this.fetchCountries();
-        }, 2000);
-    },
+    // created() {
+    //     setTimeout(() => {
+    //         this.fetchCountries();
+    //     }, 2000);
+    // },
 };
 </script>
 
